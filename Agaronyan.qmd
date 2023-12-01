@@ -1,6 +1,11 @@
 ---
-title: "Agaronyan"
+title: "Planets"
 author: "Arina Agaronyan"
 format: html
 ---
 
+## Question 1
+I committed all the data files instead of just the main one.
+
+## Question 2
+GitHub repository link: [planets](https://github.com/rinaaro/planets)
