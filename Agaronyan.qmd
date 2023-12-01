@@ -14,6 +14,7 @@ library(vroom)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(knitr)
 ```
 
 # Main data set import
@@ -34,4 +35,19 @@ main <- vroom(here("data", "Data%planets.csv"),
 valid <- main |> transmute(valid = (nrow(main)==687) & (ncol(main)==8))
 if_else(valid |> all()==TRUE, "The data is valid", "the data is invalid")
 ```
+
+
+## Question 4
+``` {r}
+kable(main |> summarise(
+  `Number of Observations` = nrow(main),
+  `Number of variables` = ncol(main),
+  `Number of Missing values for Relative Radius` 
+  = sum(is.na(`RELATIVE RADIUS`)),
+  `Number of Missing values for Mass (Earth)` 
+  = sum(is.na(`Mass (Earth)`)),
+  ))
+ 
+```
+
 
