@@ -51,9 +51,14 @@ kable(main |> summarise(
   = sum(is.na(`RELATIVE RADIUS`)),
   `Number of Missing values for Mass (Earth)` 
   = sum(is.na(`Mass (Earth)`)),
+  `Number of observations with at least one missing value` = 
+    main |>
+    mutate(across(everything(), is.na)) |>
+    rowwise() |>
+    sum(TRUE)
   ))
- 
 ```
+
 
 ## Question 5
 
@@ -87,5 +92,4 @@ kable(extremes,
       caption = "Highest and Lowest number values by Planet name",
       col.names = c("Planet name", "Variable", "Value"))
 ```
-
 
