@@ -1,11 +1,37 @@
 ---
 title: "Planets"
 author: "Arina Agaronyan"
-format: html
+format: 
+  html:
+    echo: false
 ---
 
+```{r}
+#| message: false
+library(here)
+here::i_am("planets.Rproj")
+library(vroom)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+# Main data set import
 ## Question 1
 I committed all the data files instead of just the main one.
 
 ## Question 2
 GitHub repository link: [planets](https://github.com/rinaaro/planets)
+
+## Question 3
+```{r}
+#| message: false
+main <- vroom(here("data", "Data%planets.csv"),
+               na = "_", locale = locale(decimal_mark = ","))
+```
+
+```{r}
+valid <- main |> transmute(valid = (nrow(main)==687) & (ncol(main)==8))
+if_else(valid |> all()==TRUE, "The data is valid", "the data is invalid")
+```
+
