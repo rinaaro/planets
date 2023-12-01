@@ -15,16 +15,21 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(knitr)
+theme_set(theme_bw())
 ```
 
 # Main data set import
+
 ## Question 1
+
 I committed all the data files instead of just the main one.
 
 ## Question 2
+
 GitHub repository link: [planets](https://github.com/rinaaro/planets)
 
 ## Question 3
+
 ```{r}
 #| message: false
 main <- vroom(here("data", "Data%planets.csv"),
@@ -36,9 +41,9 @@ valid <- main |> transmute(valid = (nrow(main)==687) & (ncol(main)==8))
 if_else(valid |> all()==TRUE, "The data is valid", "the data is invalid")
 ```
 
-
 ## Question 4
-``` {r}
+
+```{r}
 kable(main |> summarise(
   `Number of Observations` = nrow(main),
   `Number of variables` = ncol(main),
@@ -50,8 +55,8 @@ kable(main |> summarise(
  
 ```
 
-
 ## Question 5
+
 ```{r}
 main |>
   filter(!is.na(`RELATIVE RADIUS`)) |>
@@ -60,4 +65,27 @@ main |>
   geom_col()+
   labs(title = "Mass of a planet as a function its radius")
 ```
+
+## Question 6
+
+```{r}
+main_long <- main |>
+  pivot_longer(cols = c(`Mass (Earth)`, DENSITY, `RELATIVE RADIUS`))
+main_long_ext <- main_long |>
+  select(Planet_name, name, value) |>
+  group_by(name)
+main_long_ext_min <- main_long_ext |>
+  slice_min(value) 
+main_long_ext_max <- main_long_ext |>
+  slice_max(value) 
+extremes <- main_long_ext_max |>
+  full_join(main_long_ext_min, by = join_by(Planet_name, name, value))
+```
+
+```{r}
+kable(extremes, 
+      caption = "Highest and Lowest number values by Planet name",
+      col.names = c("Planet name", "Variable", "Value"))
+```
+
 
