@@ -51,3 +51,13 @@ kable(main |> summarise(
 ```
 
 
+## Question 5
+```{r}
+main |>
+  filter(!is.na(`RELATIVE RADIUS`)) |>
+  filter(!is.na(`Mass (Earth)`)) |>
+  ggplot(aes(x=`RELATIVE RADIUS`, y=`Mass (Earth)`)) +
+  geom_col()+
+  labs(title = "Mass of a planet as a function its radius")
+```
+
